@@ -99,6 +99,9 @@
         <enumeratum.version>1.6.1</enumeratum.version>
         <selenium.version>3.141.59</selenium.version>
         <testcontainers.version>1.17.3</testcontainers.version>
+        <amazonaws.version>1.11.401</amazonaws.version>
+        <tencent.cos.version>5.6.89</tencent.cos.version>
+        <aliyun.oss.version>3.8.0</aliyun.oss.version>
 
         <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
         <checkstyle.fails.on.error>true</checkstyle.fails.on.error>
@@ -140,6 +143,30 @@
                 <groupId>org.scala-lang.modules</groupId>
                 <artifactId>scala-xml_${scala.binary.version}</artifactId>
                 <version>${scala.xml.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun.oss.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.qcloud</groupId>
+                <artifactId>cos_api</artifactId>
+                <version>${tencent.cos.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk-s3</artifactId>
+                <version>${amazonaws.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk-core</artifactId>
+                <version>${amazonaws.version}</version>
             </dependency>
 
             <dependency>
