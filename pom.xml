@@ -110,6 +110,7 @@
         <streamx.shaded.package>com.streamxhub.streamx.shaded</streamx.shaded.package>
         <flink.table.uber.artifact.id>flink-table-uber_${scala.binary.version}</flink.table.uber.artifact.id>
         <httpclient.version>4.5.13</httpclient.version>
+        <logback.version>1.2.6</logback.version>
 
         <PermGen>64m</PermGen>
         <MaxPermGen>512m</MaxPermGen>
