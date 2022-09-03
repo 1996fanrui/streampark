@@ -11,12 +11,6 @@
     <artifactId>streamx-flink-kubernetes_${scala.binary.version}</artifactId>
     <name>StreamX : Flink Kubernetes Integration</name>
 
-    <properties>
-        <apache.httpclient5.version>5.1</apache.httpclient5.version>
-        <snakeyaml.version>1.29</snakeyaml.version>
-        <scalatest.skiptests>true</scalatest.skiptests>
-    </properties>
-
     <dependencies>
 
         <dependency>
@@ -49,20 +43,20 @@
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
-            <version>${caffeine.version}</version>
+<!--            <version>${caffeine.version}</version>-->
         </dependency>
 
         <!-- http client -->
         <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>
             <artifactId>httpclient5</artifactId>
-            <version>${apache.httpclient5.version}</version>
+<!--            <version>${apache.httpclient5.version}</version>-->
         </dependency>
 
         <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>
             <artifactId>httpclient5-fluent</artifactId>
-            <version>${apache.httpclient5.version}</version>
+<!--            <version>${apache.httpclient5.version}</version>-->
         </dependency>
 
         <dependency>
@@ -75,7 +69,6 @@
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>${snakeyaml.version}</version>
         </dependency>
 
     </dependencies>
