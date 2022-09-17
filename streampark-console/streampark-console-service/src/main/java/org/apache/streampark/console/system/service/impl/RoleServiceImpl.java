@@ -25,7 +25,7 @@ import org.apache.streampark.console.system.mapper.RoleMapper;
 import org.apache.streampark.console.system.mapper.RoleMenuMapper;
 import org.apache.streampark.console.system.service.RoleMenuServie;
 import org.apache.streampark.console.system.service.RoleService;
-import org.apache.streampark.console.system.service.UserRoleService;
+import org.apache.streampark.console.system.service.TeamMemberService;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -54,7 +54,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     private RoleMenuMapper roleMenuMapper;
 
     @Autowired
-    private UserRoleService userRoleService;
+    private TeamMemberService teamMemberService;
 
     @Autowired
     private RoleMenuServie roleMenuService;
@@ -97,12 +97,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         List<String> list = Arrays.asList(roleIds);
         baseMapper.deleteBatchIds(list);
         this.roleMenuService.deleteRoleMenusByRoleId(roleIds);
-        this.userRoleService.deleteUserRolesByRoleId(roleIds);
+        this.teamMemberService.deleteUserRolesByRoleId(roleIds);
     }
 
     @Override
     public void updateRole(Role role) throws Exception {
-        String[] roleId = {String.valueOf(role.getRoleId())};
         role.setModifyTime(new Date());
         baseMapper.updateById(role);
         roleMenuMapper.delete(

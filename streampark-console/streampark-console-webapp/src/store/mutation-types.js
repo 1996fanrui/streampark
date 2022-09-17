@@ -21,6 +21,7 @@ export const PERMISSIONS = 'PERMISSIONS'
 export const EXPIRE = 'EXPIRE'
 export const ROLES = 'ROLES'
 export const USER_INFO = 'USER_INFO'
+export const TEAM_ID = 'TEAM_ID'
 export const USER_NAME = 'USER_NAME'
 export const INVALID = 'INVALID'
 

@@ -21,6 +21,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import org.apache.streampark.console.core.enums.UserType;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -63,6 +64,8 @@ public class User implements Serializable {
     @Email(message = "{email}")
     private String email;
 
+    private UserType userType;
+
     @NotBlank(message = "{required}")
     private String status;
 
@@ -79,11 +82,6 @@ public class User implements Serializable {
     private String description;
 
     private String avatar;
-
-    @NotBlank(message = "{required}")
-    private transient String roleId;
-
-    private transient String roleName;
 
     private transient String sortField;
 

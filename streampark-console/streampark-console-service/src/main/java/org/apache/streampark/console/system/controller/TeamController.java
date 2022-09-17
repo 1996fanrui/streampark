@@ -19,10 +19,8 @@ package org.apache.streampark.console.system.controller;
 
 import org.apache.streampark.console.base.domain.RestRequest;
 import org.apache.streampark.console.base.domain.RestResponse;
-import org.apache.streampark.console.system.entity.Role;
-import org.apache.streampark.console.system.entity.RoleMenu;
-import org.apache.streampark.console.system.service.RoleMenuServie;
-import org.apache.streampark.console.system.service.RoleService;
+import org.apache.streampark.console.system.entity.Team;
+import org.apache.streampark.console.system.service.TeamService;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.extern.slf4j.Slf4j;
@@ -38,61 +36,45 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("role")
-public class
-RoleController {
+@RequestMapping("team")
+public class TeamController {
 
     @Autowired
-    private RoleService roleService;
-    @Autowired
-    private RoleMenuServie roleMenuServie;
+    private TeamService teamService;
 
     @PostMapping("list")
-    @RequiresPermissions("role:view")
-    public RestResponse roleList(RestRequest restRequest, Role role) {
-        IPage<Role> roleList = roleService.findRoles(role, restRequest);
-        return RestResponse.success(roleList);
+    public RestResponse teamList(RestRequest restRequest, Team team) {
+        IPage<Team> teamList = teamService.findTeams(team, restRequest);
+        return RestResponse.success(teamList);
     }
 
     @PostMapping("check/name")
-    public RestResponse checkRoleName(@NotBlank(message = "{required}") String roleName) {
-        Role result = this.roleService.findByName(roleName);
+    public RestResponse checkTeamName(@NotBlank(message = "{required}") String teamName) {
+        Team result = this.teamService.findByName(teamName);
         return RestResponse.success(result == null);
     }
 
-    @PostMapping("menu")
-    public RestResponse getRoleMenus(@NotBlank(message = "{required}") String roleId) {
-        List<RoleMenu> list = this.roleMenuServie.getRoleMenusByRoleId(roleId);
-        List<String> roleMenus = list.stream()
-            .map(roleMenu -> String.valueOf(roleMenu.getMenuId()))
-            .collect(Collectors.toList());
-        return RestResponse.success(roleMenus);
-    }
-
     @PostMapping("post")
-    @RequiresPermissions("role:add")
-    public RestResponse addRole(@Valid Role role) {
-        this.roleService.createRole(role);
+    @RequiresPermissions("team:add")
+    public RestResponse addTeam(@Valid Team team) {
+        this.teamService.createTeam(team);
         return RestResponse.success();
     }
 
     @DeleteMapping("delete")
-    @RequiresPermissions("role:delete")
-    public RestResponse deleteRole(Long roleId) {
-        this.roleService.removeById(roleId);
+    @RequiresPermissions("team:delete")
+    public RestResponse deleteTeam(Team team) {
+        this.teamService.deleteTeam(team);
         return RestResponse.success();
     }
 
     @PutMapping("update")
-    @RequiresPermissions("role:update")
-    public RestResponse updateRole(Role role) throws Exception {
-        this.roleService.updateRole(role);
+    @RequiresPermissions("team:update")
+    public RestResponse updateTeam(Team team) {
+        this.teamService.updateTeam(team);
         return RestResponse.success();
     }
 
