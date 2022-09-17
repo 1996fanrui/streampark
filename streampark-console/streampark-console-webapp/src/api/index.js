@@ -184,6 +184,13 @@ export default {
     DELETE: '/role/delete',
     MENU: '/role/menu'
   },
+  Team: {
+    POST: '/team/post',
+    UPDATE: '/team/update',
+    LIST: '/team/list',
+    CHECK_NAME: '/team/check/name',
+    DELETE: '/team/delete'
+  },
   Menu: {
     LIST: '/menu/list',
     DELETE: '/menu/delete',
