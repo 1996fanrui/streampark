@@ -87,6 +87,11 @@ insert into `t_menu` values (100040, 100038, 'delete', null, null, 'token:delete
 insert into `t_menu` values (100041, 100013, 'Add Cluster', '/flink/setting/add_cluster', 'flink/setting/AddCluster', 'cluster:create', '', 0, 0, null, now(), now());
 insert into `t_menu` values (100042, 100013, 'Edit Cluster', '/flink/setting/edit_cluster', 'flink/setting/EditCluster', 'cluster:update', '', 0, 0, null, now(), now());
 insert into `t_menu` values (100043, 100015, 'copy', null, null, 'app:copy', null, 1, 1, null, now(), now());
+-- TODO In the end, update all PGSQL
+insert into `t_menu` values (100044, 100000, 'Team Management', '/system/team', 'system/team/Team', 'team:view', 'team', 0, 1, 2, now(), now());
+insert into `t_menu` values (100045, 100044, 'add', null, null, 'team:add', null, 1, 1, null, now(), now());
+insert into `t_menu` values (100046, 100044, 'update', null, null, 'team:update', null, 1, 1, null, now(), now());
+insert into `t_menu` values (100047, 100044, 'delete', null, null, 'team:delete', null, 1, 1, null, now(), now());
 
 -- ----------------------------
 -- Records of t_role
@@ -160,6 +165,10 @@ insert into `t_role_menu` values (100059, 100001, 100015);
 insert into `t_role_menu` values (100060, 100000, 100041);
 insert into `t_role_menu` values (100061, 100000, 100042);
 insert into `t_role_menu` values (100062, 100000, 100043);
+insert into `t_role_menu` values (100063, 100000, 100044);
+insert into `t_role_menu` values (100064, 100000, 100045);
+insert into `t_role_menu` values (100065, 100000, 100046);
+insert into `t_role_menu` values (100066, 100000, 100047);
 
 -- ----------------------------
 -- Records of t_setting
