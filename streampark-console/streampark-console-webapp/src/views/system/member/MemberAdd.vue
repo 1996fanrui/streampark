@@ -23,12 +23,12 @@
     width="650"
     placement="right"
     :closable="true"
-    @close="onClose"
     :visible="visible"
+    @close="onClose"
     style="height: calc(100% - 55px);overflow: auto;padding-bottom: 53px;">
     <template slot="title">
-      <a-icon type="user-add" />
-      Add User
+      <a-icon type="user-add"/>
+      Add Member
     </template>
     <a-form
       :form="form">
@@ -40,51 +40,15 @@
         <a-input
           @blur="handleUserNameBlur"
           v-decorator="
-            ['username',
-             {rules: [{ required: true }]}]" />
-      </a-form-item>
-      <a-form-item
-        label="Nick Name"
-        v-bind="formItemLayout"
-        :validate-status="validateStatus"
-        :help="help">
-        <a-input
-          v-decorator="['nickName',{rules: [{ required: true }]}]" />
-      </a-form-item>
-      <a-form-item
-        label="Password"
-        v-bind="formItemLayout">
-        <a-input-password
-          placeholder="input password"
-          v-decorator="['password',{rules: [
-            { required: true, message: 'password is required'},
-            { min: 8, message: 'Password length cannot be less than 8 characters'}
-          ]}]" />
-      </a-form-item>
-      <a-form-item
-        label="E-Mail"
-        v-bind="formItemLayout">
-        <a-input
-          v-decorator="['email',{rules: [
-            { type: 'email', message: 'please enter a valid email address' },
-            { max: 50, message: 'exceeds maximum length limit of 50 characters'}
-          ]}]" />
-      </a-form-item>
-      <a-form-item
-        label="Description"
-        v-bind="formItemLayout">
-        <a-input
-          v-decorator="['description',{rules: [
-            { max: 100, message: 'exceeds maximum length limit of 100 characters'}
-          ]}]" />
+            ['userName',
+             {rules: [{ required: true }]}]"/>
       </a-form-item>
       <a-form-item
         label="Role"
         v-bind="formItemLayout">
         <a-select
-          mode="multiple"
+          mode="single"
           :allow-clear="true"
-          style="width: 100%"
           v-decorator="['roleId',{rules: [{ required: true, message: 'please select role' }]}]">
           <a-select-option
             v-for="r in roleData"
@@ -92,40 +56,6 @@
             {{ r.roleName }}
           </a-select-option>
         </a-select>
-      </a-form-item>
-      <a-form-item
-        label="Status"
-        v-bind="formItemLayout">
-        <a-radio-group
-          v-decorator="['status',{rules: [{ required: true, message: 'please select status'}]}]">
-          <a-radio
-            value="0">
-            locked
-          </a-radio>
-          <a-radio
-            value="1">
-            effective
-          </a-radio>
-        </a-radio-group>
-      </a-form-item>
-      <a-form-item
-        label="Gender"
-        v-bind="formItemLayout">
-        <a-radio-group
-          v-decorator="['sex',{rules: [{ required: true, message: 'please select gender' }]}]">
-          <a-radio
-            value="0">
-            male
-          </a-radio>
-          <a-radio
-            value="1">
-            female
-          </a-radio>
-          <a-radio
-            value="2">
-            secret
-          </a-radio>
-        </a-radio-group>
       </a-form-item>
     </a-form>
     <div
@@ -144,22 +74,23 @@
   </a-drawer>
 </template>
 <script>
-import { list as getRole } from '@/api/role'
-import { checkUserName, post } from '@/api/user'
+import {post} from '@/api/member'
+import {list as getRole} from '@/api/role'
+import {checkUserName} from '@/api/user'
 
 const formItemLayout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 18 }
+  labelCol: {span: 4},
+  wrapperCol: {span: 18}
 }
 export default {
-  name: 'UserAdd',
+  name: 'MemberAdd',
   props: {
     visible: {
       type: Boolean,
       default: false
     }
   },
-  data () {
+  data() {
     return {
       loading: false,
       roleData: [],
@@ -170,24 +101,25 @@ export default {
     }
   },
   methods: {
-    reset () {
+    reset() {
       this.validateStatus = ''
       this.help = ''
       this.loading = false
       this.form.resetFields()
     },
 
-    onClose () {
+    onClose() {
       this.reset()
       this.$emit('close')
     },
 
     handleSubmit() {
-      this.form.validateFields((err, user) => {
+      this.form.validateFields((err, member) => {
         if (!err && this.validateStatus === 'success') {
-          user.roleId = user.roleId.join(',')
+          this.loading = true
           post({
-            ...user
+            ...member,
+            teamId: 1 // TODO it should be got from workspace
           }).then((r) => {
             if (r.status === 'success') {
               this.reset()
@@ -199,7 +131,7 @@ export default {
         }
       })
     },
-    handleUserNameBlur (e) {
+    handleUserNameBlur(e) {
       const username = (e && e.target.value) || ''
       if (username.length) {
         if (username.length > 20) {
@@ -214,11 +146,11 @@ export default {
             username: username
           }).then((r) => {
             if (r.data) {
+              this.validateStatus = 'error'
+              this.help = 'Sorry, the user name doesn\'t exists'
+            } else {
               this.validateStatus = 'success'
               this.help = ''
-            } else {
-              this.validateStatus = 'error'
-              this.help = 'Sorry, the user name already exists'
             }
           })
         }
@@ -229,10 +161,10 @@ export default {
     }
   },
   watch: {
-    visible () {
+    visible() {
       if (this.visible) {
         getRole(
-          { 'pageSize': '9999' }
+          {'pageSize': '9999'}
         ).then((resp) => {
           this.roleData = resp.data.records
         })

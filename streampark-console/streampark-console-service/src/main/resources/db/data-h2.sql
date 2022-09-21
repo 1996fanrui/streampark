@@ -86,6 +86,10 @@ insert into `t_menu` values (100044, 100000, 'Team Management', '/system/team', 
 insert into `t_menu` values (100045, 100044, 'add', null, null, 'team:add', null, '1', 1, null, now(), now());
 insert into `t_menu` values (100046, 100044, 'update', null, null, 'team:update', null, '1', 1, null, now(), now());
 insert into `t_menu` values (100047, 100044, 'delete', null, null, 'team:delete', null, '1', 1, null, now(), now());
+insert into `t_menu` values (100048, 100000, 'Member Management', '/system/member', 'system/member/Member', 'member:view', 'usergroup-add', '0', 1, 2, now(), now());
+insert into `t_menu` values (100049, 100048, 'add', null, null, 'member:add', null, '1', 1, null, now(), now());
+insert into `t_menu` values (100050, 100048, 'update', null, null, 'member:update', null, '1', 1, null, now(), now());
+insert into `t_menu` values (100051, 100048, 'delete', null, null, 'member:delete', null, '1', 1, null, now(), now());
 
 
 -- ----------------------------
@@ -164,6 +168,10 @@ insert into `t_role_menu` values (100063, 100000, 100044);
 insert into `t_role_menu` values (100064, 100000, 100045);
 insert into `t_role_menu` values (100065, 100000, 100046);
 insert into `t_role_menu` values (100066, 100000, 100047);
+insert into `t_role_menu` values (100067, 100000, 100048);
+insert into `t_role_menu` values (100068, 100000, 100049);
+insert into `t_role_menu` values (100069, 100000, 100050);
+insert into `t_role_menu` values (100070, 100000, 100051);
 
 -- ----------------------------
 -- Records of t_setting
@@ -192,4 +200,4 @@ insert into `t_user` values (100000, 'admin', '', 'rh8b1ojwog777yrg0daesf04gk', 
 -- ----------------------------
 -- Records of t_user_role
 -- ----------------------------
-insert into `t_user_role` values (100000, 100000, 100000);
+insert into `t_user_role` values (100000, 0, 100000, 100000, now(), now());

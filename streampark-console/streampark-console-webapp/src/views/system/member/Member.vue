@@ -23,19 +23,37 @@
       class="table-page-search-wrapper">
       <a-form
         layout="inline">
-        <a-row
-          :gutter="48">
+        <a-row>
           <div
             class="fold">
             <a-col
-              :md="8"
-              :sm="24">
+              :md="4">
               <a-form-item
-                label="Team Name"
+                label="User Name"
                 :label-col="{span: 4}"
-                :wrapper-col="{span: 18, offset: 2}">
+                :wrapper-col="{span: 18}">
                 <a-input
-                  v-model="queryParams.teamName"/>
+                  style="width: 90%"
+                  v-model="queryParams.userName"/>
+              </a-form-item>
+            </a-col>
+            <a-col
+              :md="3">
+              <a-form-item
+                label="Role"
+                v-bind="formItemLayout">
+                <a-select
+                  mode="single"
+                  :allow-clear="true"
+                  style="width: 80%"
+                  @change="handleQueryRoleChange"
+                  v-decorator="['roleName']">
+                  <a-select-option
+                    v-for="r in roleData"
+                    :key="r.roleName">
+                    {{ r.roleName }}
+                  </a-select-option>
+                </a-select>
               </a-form-item>
             </a-col>
             <template>
@@ -72,8 +90,8 @@
                 type="primary"
                 shape="circle"
                 icon="plus"
-                v-permit="'team:add'"
-                @click="handleTeamAdd"/>
+                v-permit="'member:add'"
+                @click="handleMemberAdd"/>
             </span>
           </a-col>
         </a-row>
@@ -91,57 +109,60 @@
       @change="handleTableChange">
       <template
         slot="operation"
-        slot-scope="text, team">
+        slot-scope="text, member">
         <svg-icon
-          v-permit="'team:update'"
+          v-permit="'member:update'"
           name="edit"
           border
-          @click.native="handleTeamEdit(team)"
+          @click.native="handleMemberEdit(member)"
           title="modify"/>
         <a-popconfirm
-          v-permit="'team:delete'"
-          title="Are you sure delete this team ?"
+          v-permit="'member:delete'"
+          title="Are you sure delete this member ?"
           cancel-text="No"
           ok-text="Yes"
-          @confirm="handleTeamDelete(team)">
+          @confirm="handleMemberDelete(member)">
           <svg-icon name="remove" border/>
         </a-popconfirm>
       </template>
     </a-table>
 
-    <!-- Add team -->
-    <team-add
-      @close="handleTeamAddClose"
-      @success="handleTeamAddSuccess"
-      :visible="teamAdd.visible"/>
-    <!-- Edit team -->
-    <team-edit
-      ref="teamEdit"
-      @close="handleTeamEditClose"
-      @success="handleTeamEditSuccess"
-      :visible="teamEdit.visible"/>
+    <!-- Add member -->
+    <member-add
+      @close="handleMemberAddClose"
+      @success="handleMemberAddSuccess"
+      :visible="memberAdd.visible"/>
+    <!-- Edit member -->
+    <member-edit
+      ref="memberEdit"
+      @close="handleMemberEditClose"
+      @success="handleMemberEditSuccess"
+      :visible="memberEdit.visible"/>
   </a-card>
 </template>
 
 <script>
-import TeamAdd from './TeamAdd'
-import TeamEdit from './TeamEdit'
+import MemberAdd from './MemberAdd'
+import MemberEdit from './MemberEdit'
 import RangeDate from '@/components/DateTime/RangeDate'
 import SvgIcon from '@/components/SvgIcon'
 
-import {list, remove} from '@/api/team'
+import {list, remove} from '@/api/member'
+import {list as getRole} from '@/api/role'
 
 export default {
-  name: 'Team',
-  components: {TeamAdd, TeamEdit, RangeDate, SvgIcon},
+  name: 'Member',
+  components: {MemberAdd, MemberEdit, RangeDate, SvgIcon},
   data() {
     return {
-      teamAdd: {
+      memberAdd: {
         visible: false
       },
-      teamEdit: {
+      memberEdit: {
         visible: false
       },
+      roleData: [],
+      roleName: null,
       queryParams: {},
       filteredInfo: null,
       sortedInfo: null,
@@ -163,15 +184,15 @@ export default {
       let {sortedInfo} = this
       sortedInfo = sortedInfo || {}
       return [{
-        title: 'Team Name',
-        dataIndex: 'teamName',
+        title: 'User Name',
+        dataIndex: 'userName',
         sorter: true,
-        sortOrder: sortedInfo.columnKey === 'teamName' && sortedInfo.order
+        sortOrder: sortedInfo.columnKey === 'userName' && sortedInfo.order
       }, {
-        title: 'Description',
-        dataIndex: 'description',
-        scopedSlots: {customRender: 'description'},
-        width: 350
+        title: 'Role Name',
+        dataIndex: 'roleName',
+        sorter: true,
+        sortOrder: sortedInfo.columnKey === 'roleName' && sortedInfo.order
       }, {
         title: 'Create Time',
         dataIndex: 'createTime',
@@ -192,30 +213,39 @@ export default {
 
   mounted() {
     this.fetch()
+    getRole(
+      {'pageSize': '9999'}
+    ).then((resp) => {
+      this.roleData = resp.data.records
+    })
   },
 
   methods: {
-    handleTeamAdd() {
-      this.teamAdd.visible = true
+    handleMemberAdd() {
+      this.memberAdd.visible = true
     },
-    handleTeamAddClose() {
-      this.teamAdd.visible = false
+    handleMemberAddClose() {
+      this.memberAdd.visible = false
     },
-    handleTeamAddSuccess() {
-      this.teamAdd.visible = false
-      this.$message.success('add team successfully')
+    handleMemberAddSuccess() {
+      this.memberAdd.visible = false
+      this.$message.success('add member successfully')
       this.search()
     },
-    handleTeamEdit(record) {
-      this.$refs.teamEdit.setFormValues(record)
-      this.teamEdit.visible = true
+    handleMemberEdit(record) {
+      this.$refs.memberEdit.setFormValues(record)
+      this.memberEdit.visible = true
     },
-    handleTeamEditClose() {
-      this.teamEdit.visible = false
+    handleMemberEditClose() {
+      this.memberEdit.visible = false
     },
-    handleTeamEditSuccess() {
-      this.teamEdit.visible = false
-      this.$message.success('modify team successfully')
+    handleMemberEditSuccess() {
+      this.memberEdit.visible = false
+      this.$message.success('modify member successfully')
+      this.search()
+    },
+    handleQueryRoleChange(roleName) {
+      this.roleName = roleName
       this.search()
     },
     handleQueryDateChange(value) {
@@ -224,8 +254,8 @@ export default {
         this.queryParams.createTimeTo = value[1]
       }
     },
-    handleTeamDelete(team) {
-      remove(team).then((resp) => {
+    handleMemberDelete(member) {
+      remove(member).then((resp) => {
         if (resp.status === 'success') {
           this.$message.success('delete successful')
           this.search()
@@ -298,7 +328,9 @@ export default {
       }
 
       list({
-        ...params
+        ...params,
+        teamId: 0, // TODO it should be got from workspace
+        roleName: this.roleName
       }).then((resp) => {
         const pagination = {...this.pagination}
         pagination.total = parseInt(resp.data.total)

@@ -15,25 +15,25 @@
  * limitations under the License.
  */
 
-package org.apache.streampark.console.system.entity;
+import api from './index'
+import http from '@/utils/request'
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
+export function post (queryParam) {
+  return http.post(api.Member.POST, queryParam)
+}
 
-import java.io.Serializable;
+export function update (queryParam) {
+  return http.put(api.Member.UPDATE, queryParam)
+}
 
-@TableName("t_user_role")
-@Data
-public class UserRole implements Serializable {
+export function list (queryParam) {
+  return http.post(api.Member.LIST, queryParam)
+}
 
-    private static final long serialVersionUID = -3166012934498268403L;
+export function checkName (queryParam) {
+  return http.post(api.Member.CHECK_NAME, queryParam)
+}
 
-    @TableId(type = IdType.AUTO)
-    private Long id;
-
-    private Long userId;
-
-    private Long roleId;
+export function remove (queryParam) {
+  return http.delete(api.Member.DELETE, queryParam)
 }

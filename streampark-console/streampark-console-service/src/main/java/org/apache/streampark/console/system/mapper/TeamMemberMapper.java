@@ -17,12 +17,14 @@
 
 package org.apache.streampark.console.system.mapper;
 
-import org.apache.streampark.console.system.entity.UserRole;
+import org.apache.streampark.console.system.entity.TeamMember;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 
-public interface UserRoleMapper extends BaseMapper<UserRole> {
+public interface TeamMemberMapper extends BaseMapper<TeamMember> {
 
     /**
      * delete role by user id
@@ -39,5 +41,7 @@ public interface UserRoleMapper extends BaseMapper<UserRole> {
      * @return boolean
      */
     Boolean deleteByRoleId(@Param("roleId") Long roleId);
+
+    IPage<TeamMember> findUsers(Page<TeamMember> page, @Param("teamMember") TeamMember teamMember);
 
 }

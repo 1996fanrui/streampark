@@ -57,7 +57,7 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team> implements Te
     public void createTeam(Team team) {
         Team existedTeam = findByName(team.getTeamName());
         if (existedTeam != null) {
-            throw new IllegalArgumentException("Team name [] was found, please rename and try again.");
+            throw new IllegalArgumentException(String.format("Team name [%s] was found, please rename and try again.", team.getTeamName()));
         }
         team.setId(null);
         team.setCreateTime(new Date());

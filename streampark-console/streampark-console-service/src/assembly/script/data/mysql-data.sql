@@ -87,7 +87,7 @@ insert into `t_menu` values (100040, 100038, 'delete', null, null, 'token:delete
 insert into `t_menu` values (100041, 100013, 'Add Cluster', '/flink/setting/add_cluster', 'flink/setting/AddCluster', 'cluster:create', '', 0, 0, null, now(), now());
 insert into `t_menu` values (100042, 100013, 'Edit Cluster', '/flink/setting/edit_cluster', 'flink/setting/EditCluster', 'cluster:update', '', 0, 0, null, now(), now());
 insert into `t_menu` values (100043, 100015, 'copy', null, null, 'app:copy', null, 1, 1, null, now(), now());
--- TODO team 图标哪里来的？
+-- TODO In the end, update all PGSQL
 insert into `t_menu` values (100044, 100000, 'Team Management', '/system/team', 'system/team/Team', 'team:view', 'team', 0, 1, 2, now(), now());
 insert into `t_menu` values (100045, 100044, 'add', null, null, 'team:add', null, 1, 1, null, now(), now());
 insert into `t_menu` values (100046, 100044, 'update', null, null, 'team:update', null, 1, 1, null, now(), now());

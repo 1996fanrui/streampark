@@ -191,6 +191,13 @@ export default {
     CHECK_NAME: '/team/check/name',
     DELETE: '/team/delete'
   },
+  Member: {
+    POST: '/member/post',
+    UPDATE: '/member/update',
+    LIST: '/member/list',
+    CHECK_NAME: '/member/check/name',
+    DELETE: '/member/delete'
+  },
   Menu: {
     LIST: '/menu/list',
     DELETE: '/menu/delete',
