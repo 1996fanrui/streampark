@@ -119,7 +119,7 @@ export default {
           this.loading = true
           post({
             ...member,
-            teamId: 1 // TODO it should be got from workspace
+            teamId: 100000 // TODO it should be got from workspace
           }).then((r) => {
             if (r.status === 'success') {
               this.reset()

@@ -125,7 +125,7 @@ export default {
           const member = this.form.getFieldsValue()
           member.id = this.memberId
           member.userId = this.userId
-          member.teamId = 0
+          member.teamId = 100000  // TODO it should be got from workspace
           update(member).then((r) => {
             if (r.status === 'success') {
               this.loading = false

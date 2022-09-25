@@ -31,6 +31,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.streampark.console.system.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,19 +42,35 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public List<Menu> findUserPermissions(String username) {
+        User user = Optional.ofNullable(userService.findByName(username))
+            .orElseThrow(() -> new IllegalArgumentException(String.format("The username [%s] not found", username)));
+        // Admin has the permission for all menus.
+        if (user.getIsAdmin()) {
+            return this.list();
+        }
         return this.baseMapper.findUserPermissions(username);
     }
 
     @Override
     public List<Menu> findUserMenus(String username) {
+        User user = Optional.ofNullable(userService.findByName(username))
+            .orElseThrow(() -> new IllegalArgumentException(String.format("The username [%s] not found", username)));
+        // Admin has the permission for all menus.
+        if (user.getIsAdmin()) {
+            return this.list(new LambdaQueryWrapper<Menu>().eq(Menu::getType, "0"));
+        }
         return this.baseMapper.findUserMenus(username);
     }
 

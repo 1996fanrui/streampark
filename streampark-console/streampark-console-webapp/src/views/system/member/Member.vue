@@ -255,7 +255,9 @@ export default {
       }
     },
     handleMemberDelete(member) {
-      remove(member).then((resp) => {
+      remove({
+        id: member.id
+      }).then((resp) => {
         if (resp.status === 'success') {
           this.$message.success('delete successful')
           this.search()
@@ -329,7 +331,7 @@ export default {
 
       list({
         ...params,
-        teamId: 0, // TODO it should be got from workspace
+        teamId: 100000, // TODO it should be got from workspace
         roleName: this.roleName
       }).then((resp) => {
         const pagination = {...this.pagination}

@@ -64,6 +64,9 @@ public class User implements Serializable {
     private String email;
 
     @NotBlank(message = "{required}")
+    private Boolean isAdmin;
+
+    @NotBlank(message = "{required}")
     private String status;
 
     private Date createTime;

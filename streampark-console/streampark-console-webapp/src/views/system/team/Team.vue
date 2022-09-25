@@ -225,7 +225,9 @@ export default {
       }
     },
     handleTeamDelete(team) {
-      remove(team).then((resp) => {
+      remove({
+        id: team.id
+      }).then((resp) => {
         if (resp.status === 'success') {
           this.$message.success('delete successful')
           this.search()
