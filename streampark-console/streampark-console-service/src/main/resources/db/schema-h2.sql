@@ -315,7 +315,7 @@ create table if not exists `t_user` (
   `salt` varchar(255)  default null comment 'salt',
   `password` varchar(128)  not null comment 'password',
   `email` varchar(128)  default null comment 'email',
-  `is_admin` tinyint(1)  not null comment 'isAdmin 0:no 1:yes',
+  `user_type` int  not null comment 'account type 1:admin 2:user',
   `status` char(1)  not null comment 'status 0:locked 1:active',
   `create_time` datetime not null default current_timestamp comment 'create time',
   `modify_time` datetime not null default current_timestamp on update current_timestamp comment 'modify time',

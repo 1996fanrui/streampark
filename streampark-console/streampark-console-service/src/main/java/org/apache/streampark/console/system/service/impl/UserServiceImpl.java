@@ -74,17 +74,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         page.setSize(request.getPageSize());
         IPage<User> resPage = this.baseMapper.findUserDetail(page, user);
 
-        if (resPage != null && !resPage.getRecords().isEmpty()) {
-            List<User> users = resPage.getRecords();
-            users.forEach(u -> {
-                List<Role> roleList = roleService.findUserRole(u.getUsername());
-                String roleIds = roleList.stream().map((iter) -> iter.getRoleId().toString()).collect(Collectors.joining(","));
-                String roleNames = roleList.stream().map(Role::getRoleName).collect(Collectors.joining(","));
-                u.setRoleId(roleIds);
-                u.setRoleName(roleNames);
-            });
-            resPage.setRecords(users);
-        }
         AssertUtils.state(resPage != null);
         if (resPage.getTotal() == 0) {
             resPage.setRecords(Collections.emptyList());
@@ -110,8 +99,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setSalt(salt);
         user.setPassword(password);
         save(user);
-        String[] roles = user.getRoleId().split(StringPool.COMMA);
-        setUserRoles(user, roles);
+//        String[] roles = user.getRoleId().split(StringPool.COMMA);
+//        setUserRoles(user, roles);
     }
 
     @Override
@@ -120,9 +109,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setPassword(null);
         user.setModifyTime(new Date());
         updateById(user);
-        teamMemberService.deleteUserRolesByUserId(new String[]{user.getUserId().toString()});
-        String[] roles = user.getRoleId().split(StringPool.COMMA);
-        setUserRoles(user, roles);
+//        teamMemberService.deleteUserRolesByUserId(new String[]{user.getUserId().toString()});
+//        String[] roles = user.getRoleId().split(StringPool.COMMA);
+//        setUserRoles(user, roles);
     }
 
     @Override
@@ -190,7 +179,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             users.forEach(u -> {
                 u.setPassword(null);
                 u.setSalt(null);
-                u.setRoleId(null);
             });
         }
         return users;

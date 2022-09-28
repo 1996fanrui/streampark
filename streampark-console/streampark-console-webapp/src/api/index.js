@@ -158,6 +158,7 @@ export default {
   },
   User: {
     LIST: '/user/list',
+    TYPES: '/user/types',
     UPDATE: '/user/update',
     PASSWORD: '/user/password',
     RESET: '/user/password/reset',

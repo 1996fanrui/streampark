@@ -73,7 +73,7 @@ import {checkName, post} from '@/api/team'
 const formItemLayout = {
   labelCol: {span: 4},
   wrapperCol: {span: 18}
-};
+}
 export default {
   name: 'TeamAdd',
   props: {
@@ -93,24 +93,24 @@ export default {
   },
   methods: {
     reset() {
-      this.validateStatus = '';
-      this.help = '';
-      this.loading = false;
+      this.validateStatus = ''
+      this.help = ''
+      this.loading = false
       this.form.resetFields()
     },
 
     onClose() {
-      this.reset();
+      this.reset()
       this.$emit('close')
     },
 
     handleSubmit() {
       this.form.validateFields((err, team) => {
         if (!err && this.validateStatus === 'success') {
-          this.loading = true;
+          this.loading = true
           post(team).then((r) => {
             if (r.status === 'success') {
-              this.reset();
+              this.reset()
               this.$emit('success')
             }
           }).catch(() => {
@@ -120,30 +120,30 @@ export default {
       })
     },
     handleTeamNameBlur(e) {
-      const teamName = (e && e.target.value) || '';
+      const teamName = (e && e.target.value) || ''
       if (teamName.length) {
         if (teamName.length > 20) {
-          this.validateStatus = 'error';
+          this.validateStatus = 'error'
           this.help = 'Team name should not be longer than 20 characters'
         } else if (teamName.length < 4) {
-          this.validateStatus = 'error';
+          this.validateStatus = 'error'
           this.help = 'Team name should not be less than 4 characters'
         } else {
-          this.validateStatus = 'validating';
+          this.validateStatus = 'validating'
           checkName({
             teamName: teamName
           }).then((r) => {
             if (r.data) {
-              this.validateStatus = 'success';
+              this.validateStatus = 'success'
               this.help = ''
             } else {
-              this.validateStatus = 'error';
+              this.validateStatus = 'error'
               this.help = 'Sorry, the team name already exists'
             }
           })
         }
       } else {
-        this.validateStatus = 'error';
+        this.validateStatus = 'error'
         this.help = 'Team name cannot be empty'
       }
     }

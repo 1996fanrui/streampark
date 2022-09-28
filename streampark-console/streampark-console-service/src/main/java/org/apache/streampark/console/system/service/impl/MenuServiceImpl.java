@@ -22,6 +22,7 @@ import org.apache.streampark.console.base.domain.router.RouterMeta;
 import org.apache.streampark.console.base.domain.router.RouterTree;
 import org.apache.streampark.console.base.domain.router.VueRouter;
 import org.apache.streampark.console.base.util.TreeUtils;
+import org.apache.streampark.console.core.enums.UserType;
 import org.apache.streampark.console.system.entity.Menu;
 import org.apache.streampark.console.system.entity.User;
 import org.apache.streampark.console.system.mapper.MenuMapper;
@@ -57,7 +58,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         User user = Optional.ofNullable(userService.findByName(username))
             .orElseThrow(() -> new IllegalArgumentException(String.format("The username [%s] not found", username)));
         // Admin has the permission for all menus.
-        if (user.getIsAdmin()) {
+        if (UserType.ADMIN.equals(user.getUserType())) {
             return this.list();
         }
         return this.baseMapper.findUserPermissions(username);
@@ -68,7 +69,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         User user = Optional.ofNullable(userService.findByName(username))
             .orElseThrow(() -> new IllegalArgumentException(String.format("The username [%s] not found", username)));
         // Admin has the permission for all menus.
-        if (user.getIsAdmin()) {
+        if (UserType.ADMIN.equals(user.getUserType())) {
             return this.list(new LambdaQueryWrapper<Menu>().eq(Menu::getType, "0"));
         }
         return this.baseMapper.findUserMenus(username);

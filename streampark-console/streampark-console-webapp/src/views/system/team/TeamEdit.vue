@@ -72,7 +72,7 @@ import {update} from '@/api/team'
 const formItemLayout = {
   labelCol: {span: 4},
   wrapperCol: {span: 18}
-};
+}
 export default {
   name: 'TeamEdit',
   props: {
@@ -93,19 +93,19 @@ export default {
   methods: {
 
     onClose() {
-      this.loading = false;
-      this.form.resetFields();
+      this.loading = false
+      this.form.resetFields()
       this.$emit('close')
     },
 
     setFormValues({...team}) {
-      this.teamId = team.id;
-      const fields = ['teamName', 'description'];
+      this.teamId = team.id
+      const fields = ['teamName', 'description']
       Object.keys(team).forEach((key) => {
         if (fields.indexOf(key) !== -1) {
-          this.form.getFieldDecorator(key);
-          const obj = {};
-          obj[key] = team[key];
+          this.form.getFieldDecorator(key)
+          const obj = {}
+          obj[key] = team[key]
           this.form.setFieldsValue(obj)
         }
       })
@@ -114,12 +114,12 @@ export default {
     handleSubmit() {
       this.form.validateFields((err, team) => {
         if (!err) {
-          this.loading = true;
-          const team = this.form.getFieldsValue();
-          team.id = this.teamId;
+          this.loading = true
+          const team = this.form.getFieldsValue()
+          team.id = this.teamId
           update(team).then((r) => {
             if (r.status === 'success') {
-              this.loading = false;
+              this.loading = false
               this.$emit('success')
             } else {
               this.loading = false
