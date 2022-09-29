@@ -77,6 +77,8 @@
 import {post} from '@/api/member'
 import {list as getRole} from '@/api/role'
 import {checkUserName} from '@/api/user'
+import storage from '@/utils/storage'
+import {TEAM_ID} from '@/store/mutation-types'
 
 const formItemLayout = {
   labelCol: {span: 4},
@@ -119,7 +121,7 @@ export default {
           this.loading = true
           post({
             ...member,
-            teamId: 100000 // TODO it should be got from workspace
+            teamId: storage.get(TEAM_ID)
           }).then((r) => {
             if (r.status === 'success') {
               this.reset()

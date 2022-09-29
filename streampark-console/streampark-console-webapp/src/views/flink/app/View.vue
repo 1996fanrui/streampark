@@ -1143,6 +1143,8 @@ import {Terminal} from 'xterm'
 import 'xterm/css/xterm.css'
 import SvgIcon from '@/components/SvgIcon'
 import {list as listUser} from '@/api/user'
+import storage from '@/utils/storage'
+import {TEAM_ID} from '@/store/mutation-types'
 
 export default {
   components: {Ellipsis, State, SvgIcon},
@@ -2041,7 +2043,10 @@ export default {
         params.pageSize = this.pagination.defaultPageSize
         params.pageNum = this.pagination.defaultCurrent
       }
-      list({...params}).then((resp) => {
+      list({
+        ...params,
+        teamId: storage.get(TEAM_ID)
+      }).then((resp) => {
         this.loading = false
         const pagination = {...this.pagination}
         pagination.total = parseInt(resp.data.total)

@@ -215,6 +215,9 @@ export default {
         title: 'Nick Name',
         dataIndex: 'nickName'
       }, {
+        title: 'User Type',
+        dataIndex: 'userType'
+      }, {
         title: 'Status',
         dataIndex: 'status',
         customRender: (text, row, index) => {

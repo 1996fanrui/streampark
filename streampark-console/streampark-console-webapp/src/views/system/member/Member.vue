@@ -149,6 +149,8 @@ import SvgIcon from '@/components/SvgIcon'
 
 import {list, remove} from '@/api/member'
 import {list as getRole} from '@/api/role'
+import storage from '@/utils/storage'
+import {TEAM_ID} from '@/store/mutation-types'
 
 export default {
   name: 'Member',
@@ -331,7 +333,7 @@ export default {
 
       list({
         ...params,
-        teamId: 100000, // TODO it should be got from workspace
+        teamId: storage.get(TEAM_ID),
         roleName: this.roleName
       }).then((resp) => {
         const pagination = {...this.pagination}
