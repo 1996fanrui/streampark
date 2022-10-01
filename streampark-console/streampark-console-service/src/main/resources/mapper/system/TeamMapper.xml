@@ -44,4 +44,11 @@
             order by ${team.sortField} ${team.sortOrder}
         </if>
     </select>
+
+    <select id="findUserTeams" resultType="team" parameterType="team">
+        select t.* from t_team t
+        join t_user_role ur
+        on t.team_id = ur.role_id
+        where ur.user_id = #{userId}
+    </select>
 </mapper>

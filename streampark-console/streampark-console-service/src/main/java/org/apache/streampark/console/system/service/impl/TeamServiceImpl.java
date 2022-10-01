@@ -19,7 +19,9 @@ package org.apache.streampark.console.system.service.impl;
 
 import org.apache.streampark.common.util.AssertUtils;
 import org.apache.streampark.console.base.domain.RestRequest;
+import org.apache.streampark.console.core.enums.UserType;
 import org.apache.streampark.console.system.entity.Team;
+import org.apache.streampark.console.system.entity.User;
 import org.apache.streampark.console.system.mapper.TeamMapper;
 import org.apache.streampark.console.system.service.TeamService;
 
@@ -28,11 +30,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.streampark.console.system.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -40,8 +45,11 @@ import java.util.Optional;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team> implements TeamService {
 
+    @Autowired
+    private UserService userService;
+
     @Override
-    public IPage<Team> findTeams(Team team, RestRequest request) {
+    public IPage<Team> findUserTeams(Team team, RestRequest request) {
         Page<Team> page = new Page<>();
         page.setCurrent(request.getPageNum());
         page.setSize(request.getPageSize());
@@ -79,5 +87,16 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team> implements Te
         oldTeam.setDescription(team.getDescription());
         oldTeam.setModifyTime(new Date());
         updateById(oldTeam);
+    }
+
+    @Override
+    public List<Team> findUserTeams(Long userId) {
+        User user = Optional.ofNullable(userService.getById(userId))
+            .orElseThrow(() -> new IllegalArgumentException(String.format("The userId [%s] not found", userId)));
+        // Admin has the permission for all teams.
+        if (UserType.ADMIN.equals(user.getUserType())) {
+            return this.list();
+        }
+        return baseMapper.findUserTeams(userId);
     }
 }

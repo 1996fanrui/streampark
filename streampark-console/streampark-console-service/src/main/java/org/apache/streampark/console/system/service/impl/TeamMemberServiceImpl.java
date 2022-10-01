@@ -78,6 +78,11 @@ public class TeamMemberServiceImpl extends ServiceImpl<TeamMemberMapper, TeamMem
     }
 
     @Override
+    public List<Team> findUserTeams(Long userId) {
+        return teamService.findUserTeams(userId);
+    }
+
+    @Override
     public TeamMember findByTeamAndUserName(Long teamId, String userName) {
         User user = userService.findByName(userName);
         if (user == null) {

@@ -30,6 +30,10 @@ export function list (queryParam) {
   return http.post(api.Member.LIST, queryParam)
 }
 
+export function teams (queryParam) {
+  return http.post(api.Member.TEAMS, queryParam)
+}
+
 export function checkName (queryParam) {
   return http.post(api.Member.CHECK_NAME, queryParam)
 }

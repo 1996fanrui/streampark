@@ -23,11 +23,11 @@ import org.apache.streampark.console.system.entity.Team;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 public interface TeamService extends IService<Team> {
 
-    // TODO 右上角 list user 的 team，考虑放哪里合适？
-    // List<Team> findUserTeams(String userName);
-    IPage<Team> findTeams(Team team, RestRequest request);
+    IPage<Team> findUserTeams(Team team, RestRequest request);
 
     Team findByName(String teamName);
 
@@ -36,4 +36,7 @@ public interface TeamService extends IService<Team> {
     void deleteTeam(Team team);
 
     void updateTeam(Team team);
+
+    List<Team> findUserTeams(Long userId);
+
 }

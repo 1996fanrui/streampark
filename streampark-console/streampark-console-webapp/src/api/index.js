@@ -196,6 +196,7 @@ export default {
     POST: '/member/post',
     UPDATE: '/member/update',
     LIST: '/member/list',
+    TEAMS: '/member/teams',
     CHECK_NAME: '/member/check/name',
     DELETE: '/member/delete'
   },

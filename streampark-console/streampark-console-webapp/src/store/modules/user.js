@@ -16,7 +16,7 @@
  */
 
 import { signin, signout } from '@/api/passport'
-import {TOKEN, EXPIRE, PERMISSIONS, ROLES, USER_INFO, USER_NAME, USER_ROUTER, INVALID, TEAM_ID} from '@/store/mutation-types'
+import {TOKEN, EXPIRE, PERMISSIONS, ROLES, USER_INFO, USER_NAME, USER_ROUTER, INVALID} from '@/store/mutation-types'
 import storage from '@/utils/storage'
 import { getRouter } from '@/api/menu'
 
@@ -57,7 +57,6 @@ const user = {
     SET_INFO: (state, info) => {
       storage.set(USER_INFO, info)
       storage.set(USER_NAME, info.username)
-      storage.set(TEAM_ID, 100000) // TODO the teamId need to read from workspace
       state.info = info
       state.name = info.username
       state.avatar = info.avatar
@@ -71,6 +70,7 @@ const user = {
       state.welcome = null
       state.avatar = null
       storage.rm(USER_INFO)
+      storage.rm(USER_NAME)
       storage.rm(USER_ROUTER)
       storage.rm(TOKEN)
       storage.rm(ROLES)

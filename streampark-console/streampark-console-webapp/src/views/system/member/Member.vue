@@ -152,6 +152,10 @@ import {list as getRole} from '@/api/role'
 import storage from '@/utils/storage'
 import {TEAM_ID} from '@/store/mutation-types'
 
+const formItemLayout = {
+  labelCol: { span: 4 },
+  wrapperCol: { span: 18 }
+}
 export default {
   name: 'Member',
   components: {MemberAdd, MemberEdit, RangeDate, SvgIcon},
@@ -163,6 +167,7 @@ export default {
       memberEdit: {
         visible: false
       },
+      formItemLayout,
       roleData: [],
       roleName: null,
       queryParams: {},

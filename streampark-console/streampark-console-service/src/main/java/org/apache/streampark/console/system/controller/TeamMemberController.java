@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.streampark.console.base.domain.RestRequest;
 import org.apache.streampark.console.base.domain.RestResponse;
+import org.apache.streampark.console.system.entity.Team;
 import org.apache.streampark.console.system.entity.TeamMember;
 import org.apache.streampark.console.system.service.TeamMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Slf4j
 @Validated
@@ -44,6 +46,12 @@ public class TeamMemberController {
     public RestResponse memberList(RestRequest restRequest, TeamMember teamMember) {
         IPage<TeamMember> userList = teamMemberService.findUsers(teamMember, restRequest);
         return RestResponse.success(userList);
+    }
+
+    @PostMapping("teams")
+    public RestResponse listTeams(Long userId) {
+        List<Team> teamList = teamMemberService.findUserTeams(userId);
+        return RestResponse.success(teamList);
     }
 
     @PostMapping("check/user")
