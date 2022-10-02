@@ -332,8 +332,16 @@ export default {
         delete params.status
       }
 
+      if (params.sortField === 'roleName') {
+        params.sortField = 'role_name'
+      }
+
       if (params.sortField === 'createTime') {
         params.sortField = 'create_time'
+      }
+
+      if (params.sortField === 'modifyTime') {
+        params.sortField = 'modify_time'
       }
 
       list({

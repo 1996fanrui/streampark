@@ -24,13 +24,13 @@ import org.apache.streampark.console.system.entity.Team;
 import org.apache.streampark.console.system.entity.User;
 import org.apache.streampark.console.system.mapper.TeamMapper;
 import org.apache.streampark.console.system.service.TeamService;
+import org.apache.streampark.console.system.service.UserService;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.streampark.console.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -49,7 +49,7 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team> implements Te
     private UserService userService;
 
     @Override
-    public IPage<Team> findUserTeams(Team team, RestRequest request) {
+    public IPage<Team> findTeams(Team team, RestRequest request) {
         Page<Team> page = new Page<>();
         page.setCurrent(request.getPageNum());
         page.setSize(request.getPageSize());

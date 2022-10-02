@@ -21,7 +21,6 @@ import org.apache.streampark.common.util.AssertUtils;
 import org.apache.streampark.console.base.domain.RestRequest;
 import org.apache.streampark.console.base.util.ShaHashUtils;
 import org.apache.streampark.console.system.entity.Menu;
-import org.apache.streampark.console.system.entity.Role;
 import org.apache.streampark.console.system.entity.TeamMember;
 import org.apache.streampark.console.system.entity.User;
 import org.apache.streampark.console.system.mapper.UserMapper;
@@ -32,7 +31,6 @@ import org.apache.streampark.console.system.service.UserService;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -99,8 +97,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setSalt(salt);
         user.setPassword(password);
         save(user);
-//        String[] roles = user.getRoleId().split(StringPool.COMMA);
-//        setUserRoles(user, roles);
     }
 
     @Override
@@ -109,9 +105,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setPassword(null);
         user.setModifyTime(new Date());
         updateById(user);
-//        teamMemberService.deleteUserRolesByUserId(new String[]{user.getUserId().toString()});
-//        String[] roles = user.getRoleId().split(StringPool.COMMA);
-//        setUserRoles(user, roles);
     }
 
     @Override

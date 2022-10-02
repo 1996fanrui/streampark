@@ -2009,7 +2009,10 @@ export default {
       const params = Object.assign(this.queryParams, {})
       params.pageSize = 999999999
       params.pageNum = 1
-      list({...params}).then((resp) => {
+      list({
+        ...params,
+        teamId: storage.get(TEAM_ID)
+      }).then((resp) => {
           const dataSource = resp.data.records
           dataSource.forEach(record => {
             if (record.tags !== null && record.tags !== undefined && record.tags !== '') {

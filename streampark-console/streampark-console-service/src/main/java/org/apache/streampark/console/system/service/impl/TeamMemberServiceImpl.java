@@ -17,10 +17,6 @@
 
 package org.apache.streampark.console.system.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.streampark.common.util.AssertUtils;
 import org.apache.streampark.console.base.domain.RestRequest;
 import org.apache.streampark.console.system.entity.Team;
@@ -28,9 +24,14 @@ import org.apache.streampark.console.system.entity.TeamMember;
 import org.apache.streampark.console.system.entity.User;
 import org.apache.streampark.console.system.mapper.TeamMemberMapper;
 import org.apache.streampark.console.system.service.RoleService;
+import org.apache.streampark.console.system.service.TeamMemberService;
 import org.apache.streampark.console.system.service.TeamService;
 import org.apache.streampark.console.system.service.UserService;
-import org.apache.streampark.console.system.service.TeamMemberService;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

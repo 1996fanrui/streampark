@@ -45,8 +45,7 @@ import java.util.stream.Collectors;
 @Validated
 @RestController
 @RequestMapping("role")
-public class
-RoleController {
+public class RoleController {
 
     @Autowired
     private RoleService roleService;
