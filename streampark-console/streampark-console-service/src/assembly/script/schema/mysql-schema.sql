@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-create database if not exists `streampark_team_tmp` character set utf8mb4 collate utf8mb4_general_ci;
-use streampark_team_tmp;
+create database if not exists `streampark` character set utf8mb4 collate utf8mb4_general_ci;
+use streampark;
 
 set names utf8mb4;
 set foreign_key_checks = 0;
@@ -305,6 +305,21 @@ create table `t_message` (
 
 
 -- ----------------------------
+-- Table of t_team
+-- ----------------------------
+drop table if exists `t_team`;
+create table `t_team` (
+  `id` bigint not null auto_increment comment 'team id',
+  `team_name` varchar(50) collate utf8mb4_general_ci not null comment 'team name',
+  `description` varchar(255) collate utf8mb4_general_ci default null,
+  `create_time` datetime not null default current_timestamp comment 'create time',
+  `modify_time` datetime not null default current_timestamp on update current_timestamp comment 'modify time',
+  primary key (`id`) using btree,
+  unique key `team_name_idx` (`team_name`) using btree
+) engine = innodb default charset = utf8mb4 collate = utf8mb4_general_ci;
+
+
+-- ----------------------------
 -- Table structure for t_role
 -- ----------------------------
 drop table if exists `t_role`;
@@ -358,7 +373,7 @@ create table `t_user` (
   `salt` varchar(255) collate utf8mb4_general_ci default null comment 'salt',
   `password` varchar(128) collate utf8mb4_general_ci not null comment 'password',
   `email` varchar(128) collate utf8mb4_general_ci default null comment 'email',
-  `is_admin` char(1) collate utf8mb4_general_ci not null comment 'isAdmin 0:no 1:yes',
+  `user_type` int  not null comment 'user type 1:admin 2:user',
   `status` char(1) collate utf8mb4_general_ci not null comment 'status 0:locked 1:active',
   `create_time` datetime not null default current_timestamp comment 'create time',
   `modify_time` datetime not null default current_timestamp on update current_timestamp comment 'modify time',
@@ -377,9 +392,9 @@ create table `t_user` (
 drop table if exists `t_user_role`;
 create table `t_user_role` (
   `id` bigint not null auto_increment,
-  `team_id` bigint not null,
-  `user_id` bigint default null comment 'user id',
-  `role_id` bigint default null comment 'role id',
+  `team_id` bigint not null comment 'team id',
+  `user_id` bigint not null comment 'user id',
+  `role_id` bigint not null comment 'role id',
   primary key (`id`) using btree,
   unique key `un_user_team_role_inx` (`user_id`,`team_id`,`role_id`) using btree
 ) engine=innodb auto_increment=100000 default charset=utf8mb4 collate=utf8mb4_general_ci;
@@ -472,24 +487,6 @@ create table `t_alert_config` (
   `modify_time` datetime not null default current_timestamp on update current_timestamp comment 'modify time',
   index `inx_alert_user` (`user_id`) using btree
 ) engine = innodb default charset = utf8mb4 collate = utf8mb4_general_ci;
-
-
--- ----------------------------
--- Table of t_team
--- ----------------------------
-drop table if exists `t_team`;
-create table `t_team` (
-  `id` bigint not null auto_increment comment 'team id',
-  `team_name` varchar(50) collate utf8mb4_general_ci not null comment 'team name',
-  `description` varchar(255) collate utf8mb4_general_ci default null,
-  `create_time` datetime not null default current_timestamp comment 'create time',
-  `modify_time` datetime not null default current_timestamp on update current_timestamp comment 'modify time',
-  primary key (`id`) using btree,
-  unique key `team_name_idx` (`team_name`) using btree
-) engine = innodb default charset = utf8mb4 collate = utf8mb4_general_ci;
-
-insert into `t_team` values (1, 'default', null, now(), now());
-
 
 
 set foreign_key_checks = 1;
